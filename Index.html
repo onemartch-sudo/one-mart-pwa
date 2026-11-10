@@ -1,0 +1,212 @@
+<!doctype html>
+<html>
+<head>
+  <base target="_top">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#102744">
+  <style>
+    :root{--navy:#102744;--navy2:#183f70;--blue:#2563eb;--orange:#f59e0b;--bg:#f3f6fb;--ink:#172337;--muted:#708096;--line:#e4eaf2;--white:#fff;--green:#13834b;--red:#b42318}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px system-ui,-apple-system,"Segoe UI",sans-serif;padding-bottom:86px}
+    button,input,select{font:inherit}button{cursor:pointer;border:0}
+    .top{background:linear-gradient(135deg,#102744,#1d4f87);color:#fff;padding:18px 18px 22px;border-radius:0 0 25px 25px}
+    .toprow{display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{font-weight:900;font-size:21px;letter-spacing:2px}.brand small{display:block;font-size:9px;letter-spacing:1.7px;color:#c8dcf7;font-weight:650;margin-top:2px}
+    .mark{width:40px;height:40px;border-radius:14px;background:#fff;color:var(--navy);display:grid;place-items:center;font-weight:950;font-size:19px;box-shadow:0 5px 15px #06182d44}
+    .welcome{margin-top:22px}.welcome .eyebrow{font-size:11px;color:#c9ddf7;letter-spacing:1px;font-weight:700}.welcome h1{font-size:23px;line-height:1.2;margin:5px 0}.welcome p{margin:5px 0 0;color:#d7e6f8;font-size:12px}
+    main{max-width:760px;margin:-8px auto 0;padding:0 14px}.page{display:none}.page.active{display:block}
+    .sectionhead{display:flex;justify-content:space-between;align-items:center;margin:20px 2px 11px}.sectionhead h2{font-size:16px;margin:0;color:var(--navy)}.hint{font-size:11px;color:var(--muted)}
+    .panel{background:#fff;border:1px solid var(--line);border-radius:18px;padding:15px;margin-bottom:13px;box-shadow:0 5px 18px #19385c08}
+    .quickgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.quick{border-radius:16px;padding:15px;text-align:left;background:#fff;border:1px solid var(--line);color:var(--ink);min-height:105px}.quick .qicon{width:35px;height:35px;border-radius:12px;background:#eaf1ff;color:#2057ad;display:grid;place-items:center;font-size:18px;margin-bottom:10px}.quick b{display:block;font-size:13px}.quick span{font-size:11px;color:var(--muted)}
+    .statgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{padding:14px;border-radius:15px;background:#f5f8fd;border:1px solid #e9eff7}.stat strong{display:block;font-size:23px;color:var(--navy)}.stat span{font-size:11px;color:var(--muted)}
+    label{display:block;font-size:10px;letter-spacing:.55px;font-weight:800;color:#627187;margin:0 0 6px}
+    input,select{width:100%;border:1px solid #d5deea;border-radius:11px;padding:12px;background:#fff;color:var(--ink);min-height:45px;outline:none}
+    input:focus,select:focus{border-color:#70a5f5;box-shadow:0 0 0 3px #dceafe}
+    .fields{display:grid;grid-template-columns:1fr 1fr;gap:11px}.field.full{grid-column:1/-1}
+    .primary{background:var(--blue);color:#fff;border-radius:12px;padding:13px 16px;font-weight:800}.secondary{background:#edf3fb;color:#173b69;border-radius:12px;padding:12px 14px;font-weight:750}.danger{background:#fff0f0;color:var(--red);border-radius:9px;padding:8px 10px;font-size:11px;font-weight:750}.wide{width:100%}
+    .productline{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:12px 0;border-bottom:1px solid #edf1f6}.productline:last-child{border-bottom:0}.pname{font-weight:800;font-size:13px}.pmeta{font-size:11px;color:var(--muted);margin-top:4px}.price{font-weight:900;color:var(--navy);white-space:nowrap}.tag{display:inline-block;background:#edf3ff;color:#24549a;border-radius:30px;padding:3px 8px;font-size:10px;font-weight:750;margin:4px 3px 0 0}
+    .cartitem{padding:12px 0;border-bottom:1px solid #edf1f6}.cartitem:last-child{border:0}.cartrow{display:flex;justify-content:space-between;gap:10px}.cartcontrols{display:flex;align-items:center;gap:7px;margin-top:9px}.qty{width:72px;min-height:35px;padding:6px}.muted{font-size:11px;color:var(--muted)}.totalbar{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding-top:13px;margin-top:10px}.grand{font-size:23px;font-weight:900;color:var(--navy)}
+    .notice{padding:12px;border-radius:12px;font-size:12px;margin-top:10px;display:none}.notice.ok{display:block;background:#eaf8ef;color:#17643a}.notice.err{display:block;background:#fff0f0;color:#a51d2d}
+    .empty{text-align:center;padding:24px 10px;color:var(--muted);font-size:12px}.search{margin-bottom:10px}
+    .bottomnav{position:fixed;z-index:10;bottom:0;left:0;right:0;background:#fffffff2;backdrop-filter:blur(12px);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(3,1fr);padding:8px 8px max(8px,env(safe-area-inset-bottom))}
+    .navbtn{background:transparent;color:#7a8798;padding:6px 3px;font-size:10px;font-weight:750;display:flex;flex-direction:column;align-items:center;gap:3px}.navbtn .ico{font-size:19px;line-height:1.2}.navbtn.active{color:#1f5db7}
+    .loading{color:var(--muted);font-size:12px;padding:10px 0}
+    @media(min-width:620px){main{padding:0 20px}.fields{grid-template-columns:repeat(3,1fr)}.field.full{grid-column:span 2}.statgrid{grid-template-columns:repeat(2,1fr)}}
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="toprow"><div class="brand">ONE MART<small>SALES & DISTRIBUTION</small></div><div class="mark">OM</div></div>
+    <div class="welcome"><div class="eyebrow">SALESMAN WORKSPACE</div><h1 id="greeting">Welcome back</h1><p>Product ordering made simple.</p></div>
+  </header>
+  <main>
+    <section class="page active" id="homePage">
+      <div class="sectionhead"><h2>Quick overview</h2><span class="hint">Live catalogue</span></div>
+      <div class="statgrid">
+        <div class="stat"><strong id="catalogCount">—</strong><span>Active products</span></div>
+        <div class="stat"><strong id="cartCount">0</strong><span>Items in current order</span></div>
+      </div>
+      <div class="sectionhead"><h2>Quick actions</h2></div>
+      <div class="quickgrid">
+        <button class="quick" onclick="showPage('order')"><div class="qicon">＋</div><b>Create new order</b><span>Book retailer requirements</span></button>
+        <button class="quick" onclick="showPage('products')"><div class="qicon">▦</div><b>Browse products</b><span>Search brand and models</span></button>
+      </div>
+      <div class="sectionhead"><h2>Getting started</h2></div>
+      <div class="panel">
+        <div style="font-weight:800;color:var(--navy);margin-bottom:6px">Your ONE MART order app</div>
+        <div class="muted" style="line-height:1.6">Choose a retailer, add products and quantities, review the order, then submit. Your order is saved to the connected Google Sheet.</div>
+        <button class="primary wide" style="margin-top:14px" onclick="showPage('order')">Start an order →</button>
+      </div>
+      <div class="muted" style="text-align:center;padding:8px">ONE MART · Mobile Sales</div>
+    </section>
+
+    <section class="page" id="orderPage">
+      <div class="sectionhead"><h2>New retailer order</h2><span class="hint">Required fields *</span></div>
+      <div class="panel">
+        <div class="fields">
+          <div class="field"><label>ORDER DATE</label><input id="date" type="date"></div>
+          <div class="field"><label>SALESMAN NAME *</label><input id="salesman" placeholder="Your name" autocomplete="name"></div>
+          <div class="field full"><label>RETAILER / SHOP NAME *</label><input id="retailer" placeholder="Enter shop name"></div>
+          <div class="field"><label>RETAILER MOBILE</label><input id="mobile" inputmode="tel" placeholder="Mobile number"></div>
+          <div class="field"><label>AREA / TOWN</label><input id="area" placeholder="Area or town"></div>
+        </div>
+      </div>
+      <div class="sectionhead"><h2>Add products</h2><span class="hint" id="catalogStatus">Loading catalogue…</span></div>
+      <div class="panel">
+        <div class="fields">
+          <div class="field"><label>BRAND</label><select id="brand"><option value="">Loading…</option></select></div>
+          <div class="field"><label>CATEGORY</label><select id="category" disabled><option value="">Choose category</option></select></div>
+          <div class="field full"><label>PRODUCT MODEL</label><select id="model" disabled><option value="">Choose model</option></select></div>
+          <div class="field"><label>COLOUR / VARIANT</label><select id="colour" disabled><option value="">Choose colour</option></select></div>
+          <div class="field"><label>QUANTITY</label><input id="qty" type="number" min="1" step="1" value="1"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;background:#f5f8fd;border-radius:12px;padding:12px;margin-top:12px">
+          <div><div class="muted">DISTRIBUTOR PRICE</div><div class="price" id="selectedPrice">—</div><div class="muted" id="selectedSku"></div></div>
+          <button class="primary" id="addBtn" disabled onclick="addProduct()">＋ Add</button>
+        </div>
+      </div>
+      <div class="sectionhead"><h2>Order cart</h2><span class="hint" id="unitCount">0 units</span></div>
+      <div class="panel">
+        <div id="cart"><div class="empty">Your order cart is empty.</div></div>
+        <div class="totalbar"><div><div class="muted">ORDER VALUE</div><div class="grand" id="grandTotal">₹0.00</div></div><div style="text-align:right"><div class="muted">PRODUCT LINES</div><b id="lineCount">0</b></div></div>
+      </div>
+      <div class="panel">
+        <label>REMARKS / DELIVERY NOTES</label><input id="remarks" placeholder="Optional notes">
+        <button class="primary wide" id="submitBtn" style="margin-top:13px" onclick="submitCurrentOrder()">Submit order</button>
+        <div id="status" class="notice"></div>
+        <div class="muted" style="margin-top:10px;line-height:1.5">Keep this screen open until the order confirmation appears.</div>
+      </div>
+    </section>
+
+    <section class="page" id="productsPage">
+      <div class="sectionhead"><h2>Product catalogue</h2><span class="hint" id="productCountLabel">—</span></div>
+      <div class="panel">
+        <input class="search" id="search" placeholder="Search model, SKU, brand or category…" oninput="renderProducts()">
+        <select id="filterBrand" onchange="renderProducts()"><option value="">All brands</option></select>
+        <div id="productList"><div class="loading">Loading products…</div></div>
+      </div>
+    </section>
+  </main>
+  <nav class="bottomnav">
+    <button class="navbtn active" data-page="home" onclick="showPage('home')"><span class="ico">⌂</span>Home</button>
+    <button class="navbtn" data-page="order" onclick="showPage('order')"><span class="ico">＋</span>New order</button>
+    <button class="navbtn" data-page="products" onclick="showPage('products')"><span class="ico">▦</span>Products</button>
+  </nav>
+<script>
+  let PRODUCTS=[], cart=[];
+  const $=id=>document.getElementById(id);
+  const money=n=>'₹'+Number(n||0).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
+  const unique=a=>[...new Set(a.filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+  function localDate(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+  function safeText(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+  function showPage(name){
+    ['home','order','products'].forEach(p=>$(p+'Page').classList.toggle('active',p===name));
+    document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.page===name));
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  function fillSelect(el,vals,placeholder){el.innerHTML='';const first=document.createElement('option');first.value='';first.textContent=placeholder;el.append(first);vals.forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=v;el.append(o)});el.disabled=!vals.length}
+  function loadCatalog(){
+    $('catalogStatus').textContent='Connecting…';
+    google.script.run.withSuccessHandler(data=>{
+      PRODUCTS=data||[];
+      $('catalogCount').textContent=PRODUCTS.length;
+      $('catalogStatus').textContent=PRODUCTS.length+' products ready';
+      fillSelect($('brand'),unique(PRODUCTS.map(p=>p.brand)),'Choose brand');
+      fillSelect($('filterBrand'),unique(PRODUCTS.map(p=>p.brand)),'All brands');
+      $('productCountLabel').textContent=PRODUCTS.length+' products';
+      renderProducts();
+    }).withFailureHandler(e=>{$('catalogStatus').textContent='Catalogue error: '+(e.message||e)}).getCatalog();
+  }
+  $('brand').onchange=()=>{
+    fillSelect($('category'),unique(PRODUCTS.filter(p=>p.brand===$('brand').value).map(p=>p.category)),'Choose category');
+    fillSelect($('model'),[],'Choose model');fillSelect($('colour'),[],'Choose colour');
+    $('selectedPrice').textContent='—';$('selectedSku').textContent='';$('addBtn').disabled=true;
+  };
+  $('category').onchange=()=>{
+    const list=PRODUCTS.filter(p=>p.brand===$('brand').value&&p.category===$('category').value);
+    $('model').innerHTML='<option value="">Choose model</option>';
+    list.forEach(p=>{const o=document.createElement('option');o.value=String(PRODUCTS.indexOf(p));o.textContent=p.model+(p.sku?' · '+p.sku:'');$('model').append(o)});
+    $('model').disabled=!list.length;fillSelect($('colour'),[],'Choose colour');
+    $('selectedPrice').textContent='—';$('selectedSku').textContent='';$('addBtn').disabled=true;
+  };
+  function selectedProduct(){return $('model').value===''?null:PRODUCTS[Number($('model').value)]}
+  $('model').onchange=()=>{
+    const p=selectedProduct();if(!p)return;
+    fillSelect($('colour'),p.colours,p.colours.length?'Choose colour':'No colour options');
+    $('selectedPrice').textContent=p.price==null?'Price not entered':money(p.price);
+    $('selectedSku').textContent='SKU: '+(p.sku||'Not specified');$('addBtn').disabled=false;
+  };
+  function addProduct(){
+    const p=selectedProduct(),qty=Math.floor(Number($('qty').value));
+    if(!p||qty<1){alert('Choose a product and enter a valid quantity.');return}
+    cart.push({...p,colour:$('colour').value,qty});renderCart();$('qty').value=1;
+    $('cartCount').textContent=cart.length;
+    setNotice('Product added to order.','ok');
+  }
+  function renderCart(){
+    const el=$('cart');el.innerHTML='';
+    if(!cart.length)el.innerHTML='<div class="empty">Your order cart is empty.</div>';
+    cart.forEach((p,i)=>{
+      const row=document.createElement('div');row.className='cartitem';
+      row.innerHTML='<div class="cartrow"><div><div class="pname">'+safeText(p.model)+'</div><div class="pmeta">'+safeText(p.brand+' · '+p.category+(p.colour?' · '+p.colour:''))+'</div></div><b class="price">'+(p.price==null?'—':money(p.price*p.qty))+'</b></div><div class="cartcontrols"><span class="muted">Qty</span><input class="qty" type="number" min="1" value="'+p.qty+'" aria-label="Quantity"><span class="muted">'+(p.price==null?'Price missing':money(p.price)+' each')+'</span><button class="danger">Remove</button></div>';
+      const inp=row.querySelector('input');inp.onchange=()=>{cart[i].qty=Math.max(1,Math.floor(Number(inp.value)||1));renderCart();$('cartCount').textContent=cart.length};
+      row.querySelector('button').onclick=()=>{cart.splice(i,1);renderCart();$('cartCount').textContent=cart.length};
+      el.append(row);
+    });
+    $('unitCount').textContent=cart.reduce((n,p)=>n+p.qty,0)+' units';
+    $('lineCount').textContent=cart.length;
+    $('grandTotal').textContent=money(cart.reduce((n,p)=>n+(Number(p.price)||0)*p.qty,0));
+  }
+  function renderProducts(){
+    const term=$('search').value.trim().toLowerCase(),brand=$('filterBrand').value;
+    const list=PRODUCTS.filter(p=>(!brand||p.brand===brand)&&(!term||[p.brand,p.category,p.model,p.sku].join(' ').toLowerCase().includes(term)));
+    $('productCountLabel').textContent=list.length+' shown';
+    const el=$('productList');el.innerHTML='';
+    if(!list.length){el.innerHTML='<div class="empty">No matching products found.</div>';return}
+    list.slice(0,150).forEach(p=>{
+      const d=document.createElement('div');d.className='productline';
+      d.innerHTML='<div><div class="pname">'+safeText(p.model)+'</div><div class="pmeta">'+safeText(p.brand+' · '+p.category)+'</div><span class="tag">'+safeText(p.sku||'No SKU')+'</span></div><div class="price">'+(p.price==null?'—':money(p.price))+'</div>';
+      el.append(d);
+    });
+    if(list.length>150){const note=document.createElement('div');note.className='muted';note.textContent='Showing first 150 results. Refine your search.';el.append(note)}
+  }
+  function setNotice(message,type){const n=$('status');n.textContent=message;n.className='notice '+type}
+  function submitCurrentOrder(){
+    if(!cart.length){setNotice('Add at least one product first.','err');return}
+    const order={orderDate:$('date').value,salesman:$('salesman').value.trim(),retailer:$('retailer').value.trim(),mobile:$('mobile').value.trim(),area:$('area').value.trim(),remarks:$('remarks').value.trim(),items:cart};
+    if(!order.salesman||!order.retailer){setNotice('Enter salesman name and retailer / shop name.','err');return}
+    const btn=$('submitBtn');btn.disabled=true;btn.textContent='Saving order…';
+    google.script.run.withSuccessHandler(r=>{
+      setNotice('Order saved successfully · '+r.orderId+' · '+r.lines+' product lines','ok');
+      cart=[];renderCart();$('cartCount').textContent='0';btn.textContent='Order submitted ✓';
+      $('retailer').value='';$('mobile').value='';$('area').value='';$('remarks').value='';
+      setTimeout(()=>{btn.disabled=false;btn.textContent='Submit order'},2500);
+    }).withFailureHandler(e=>{
+      setNotice('Could not save order: '+(e.message||e),'err');btn.disabled=false;btn.textContent='Retry submit order';
+    }).submitOrder(order);
+  }
+  $('date').value=localDate();
+  $('greeting').textContent='Welcome to ONE MART';
+  loadCatalog();renderCart();
+</script>
+</body>
+</html>
